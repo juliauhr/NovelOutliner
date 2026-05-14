@@ -402,6 +402,8 @@ async function newProject(){
 }
 async function deleteProject(id){
   if(projects.length<=1){alert('You need at least one novel. Rename this one instead!');return;}
+  var proj=projects.find(function(p){return p.id===id;});
+  if(!confirm('Delete "'+((proj&&proj.name)||'this novel')+'"? This cannot be undone.'))return;
   projects=projects.filter(function(p){return p.id!==id;});
   await dbDelete('projects',id);
   if(activeProjectId===id){
