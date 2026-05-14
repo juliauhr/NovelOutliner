@@ -1,4 +1,4 @@
-const CACHE = 'novel-outliner-v1';
+const CACHE = 'novel-outliner-v2';
 
 const PRECACHE = [
   './index.html',
