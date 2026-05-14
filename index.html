@@ -62,11 +62,11 @@ h1 em{font-style:normal;color:var(--ch-deep)}
 
 /* CARDS */
 #root{display:flex;flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:14px;min-height:60px;min-width:max-content}
-.card{border-radius:16px;box-shadow:0 3px 14px var(--shadow),0 1px 3px rgba(0,0,0,0.04);transition:box-shadow 0.2s;position:relative;width:420px;min-width:180px;max-width:1200px;height:260px;min-height:80px;resize:both;overflow:hidden;display:flex;flex-direction:column}
+.card{border-radius:16px;box-shadow:0 3px 14px var(--shadow),0 1px 3px rgba(0,0,0,0.04);transition:box-shadow 0.2s;position:relative;width:420px;min-width:180px;max-width:1200px;min-height:80px;resize:horizontal;overflow:hidden;display:flex;flex-direction:column}
 .sortable-ghost{opacity:0.25 !important;box-shadow:none !important}
 .sortable-chosen{box-shadow:0 8px 28px rgba(60,40,100,0.20) !important}
 .card.collapsed>.card-head{border-radius:14px}
-.card.collapsed{height:auto !important;resize:horizontal}
+.card.collapsed{resize:horizontal}
 
 /* Washi tape */
 
@@ -93,9 +93,9 @@ h1 em{font-style:normal;color:var(--ch-deep)}
 .hbtn-collapse{font-size:10px;transition:background 0.12s,transform 0.2s}
 .card.collapsed .hbtn-collapse{transform:rotate(-90deg)}
 .hbtn-palette{font-size:11px}
-.card-body{padding:10px 14px 8px;display:flex;flex-direction:column;gap:10px;flex:1;overflow:auto;min-height:0}
+.card-body{padding:10px 14px 8px;display:flex;flex-direction:column;gap:10px}
 .card.collapsed .card-body{display:none}
-.card-desc{font-size:0.82rem;color:var(--mute);background:transparent;border:none;outline:none;resize:none;width:100%;min-height:36px;font-family:'Nunito',sans-serif;line-height:1.65;overflow-y:auto}
+.card-desc{font-size:0.82rem;color:var(--mute);background:transparent;border:none;outline:none;resize:none;width:100%;min-height:36px;font-family:'Nunito',sans-serif;line-height:1.65;overflow:hidden}
 .card-desc::placeholder{color:#C0B8D8}
 .children{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;min-height:4px}
 .card-foot{padding:4px 14px 10px;flex-shrink:0;border-top:1px solid rgba(0,0,0,0.05)}
@@ -293,7 +293,7 @@ function serializeCards(container){
     return{
       type:type, title:card.querySelector('.card-title').value,
       desc:card.querySelector('.card-desc')?card.querySelector('.card-desc').value:'',
-      width:card.style.width, height:card.style.height,
+      width:card.style.width, height:'',
       collapsed:card.classList.contains('collapsed'),
       palette:card.dataset.palette!=null?parseInt(card.dataset.palette):null,
       children:ce?serializeCards(ce):[]
@@ -305,8 +305,8 @@ function deserializeCards(container,cards){
     var card=createCard(data.type,data.title);
     var de=card.querySelector('.card-desc');
     if(de&&data.desc)de.value=data.desc;
+    if(de)autoGrow(de);
     if(data.width) card.style.width=data.width;
-    if(data.height)card.style.height=data.height;
     if(data.collapsed)card.classList.add('collapsed');
     if(data.palette!=null)applyPalette(card,parseInt(data.palette));
     var ce=card.querySelector('.children');
@@ -400,6 +400,9 @@ async function deleteProject(id){
   renderProjectList();
 }
 
+/* ── Auto-grow textarea ────────────────────────────────────────────────── */
+function autoGrow(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+
 /* ── Card factory ──────────────────────────────────────────────────────── */
 function createCard(type,defaultTitle){
   var cfg=CFG[type];
@@ -440,7 +443,7 @@ function createCard(type,defaultTitle){
 
   var body=document.createElement('div');body.className='card-body';
   var desc=document.createElement('textarea');desc.className='card-desc';desc.placeholder=cfg.ph;desc.rows=1;
-  desc.addEventListener('input',scheduleSave);body.appendChild(desc);
+  desc.addEventListener('input',function(){autoGrow(desc);scheduleSave();});body.appendChild(desc);
 
   var foot=null;
   if(cfg.child){
