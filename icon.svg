@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9B4C6"/>
+      <stop offset="100%" stop-color="#D4AAFF"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="110" fill="url(#bg)"/>
+  <!-- Book pages (right) -->
+  <rect x="230" y="140" width="120" height="220" rx="8" fill="white" opacity="0.95"/>
+  <!-- Book pages (left) -->
+  <rect x="162" y="148" width="108" height="208" rx="8" fill="white" opacity="0.75"/>
+  <!-- Book spine -->
+  <rect x="222" y="136" width="16" height="228" rx="4" fill="#D4728E" opacity="0.6"/>
+  <!-- Lines on right page -->
+  <rect x="248" y="180" width="80" height="7" rx="3" fill="#D4AAFF" opacity="0.7"/>
+  <rect x="248" y="202" width="64" height="7" rx="3" fill="#D4AAFF" opacity="0.7"/>
+  <rect x="248" y="224" width="72" height="7" rx="3" fill="#D4AAFF" opacity="0.7"/>
+  <rect x="248" y="246" width="56" height="7" rx="3" fill="#D4AAFF" opacity="0.7"/>
+  <rect x="248" y="268" width="68" height="7" rx="3" fill="#D4AAFF" opacity="0.7"/>
+  <!-- Sparkle top right -->
+  <g transform="translate(355,130)" fill="white">
+    <rect x="-3" y="-18" width="6" height="36" rx="3"/>
+    <rect x="-18" y="-3" width="36" height="6" rx="3"/>
+    <rect x="-12" y="-12" width="6" height="24" rx="3" transform="rotate(45)"/>
+    <rect x="-12" y="-12" width="6" height="24" rx="3" transform="rotate(-45)"/>
+  </g>
+  <!-- Small sparkle bottom left -->
+  <g transform="translate(148,340) scale(0.6)" fill="white" opacity="0.85">
+    <rect x="-3" y="-14" width="6" height="28" rx="3"/>
+    <rect x="-14" y="-3" width="28" height="6" rx="3"/>
+  </g>
+</svg>

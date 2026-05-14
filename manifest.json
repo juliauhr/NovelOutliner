@@ -1,0 +1,25 @@
+{
+  "name": "Novel Outliner",
+  "short_name": "Novel Outliner",
+  "description": "A visual novel outliner with nested sticky notes",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FDF9FF",
+  "theme_color": "#D4728E",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
