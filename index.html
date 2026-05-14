@@ -66,7 +66,7 @@ h1 em{font-style:normal;color:var(--ch-deep)}
 .sortable-ghost{opacity:0.25 !important;box-shadow:none !important}
 .sortable-chosen{box-shadow:0 8px 28px rgba(60,40,100,0.20) !important}
 .card.collapsed>.card-head{border-radius:14px}
-.card.collapsed{resize:horizontal}
+.card.collapsed{resize:none;width:220px !important}
 
 /* Washi tape */
 
@@ -444,7 +444,19 @@ function createCard(type,defaultTitle){
   btns.appendChild(paletteBtn);
 
   var collapseBtn=document.createElement('button');collapseBtn.className='hbtn hbtn-collapse';collapseBtn.title='Collapse / expand';collapseBtn.textContent='\u25BC';
-  collapseBtn.addEventListener('click',function(){card.classList.toggle('collapsed');scheduleSave();});
+  collapseBtn.addEventListener('click',function(){
+    card.classList.toggle('collapsed');
+    if(card.classList.contains('collapsed')){
+      card.dataset.savedHeight=card.style.height;
+      card.dataset.savedWidth=card.style.width;
+      card.style.height='';
+      card.style.width='';
+    } else {
+      card.style.height=card.dataset.savedHeight||'';
+      card.style.width=card.dataset.savedWidth||'';
+    }
+    scheduleSave();
+  });
   var deleteBtn=document.createElement('button');deleteBtn.className='hbtn';deleteBtn.title='Delete';deleteBtn.textContent='\u2715';
   deleteBtn.addEventListener('click',function(){
     card.style.transition='opacity 0.18s,transform 0.18s';card.style.opacity='0';card.style.transform='scale(0.95)';
