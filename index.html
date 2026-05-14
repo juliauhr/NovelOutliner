@@ -127,20 +127,30 @@ h1 em{font-style:normal;color:var(--ch-deep)}
 @keyframes fade-in{from{opacity:0}to{opacity:1}}
 .proj-item{animation:fade-in 0.15s ease-out}
 
-/* Critter */
-.critter{position:relative;width:44px;height:50px;flex-shrink:0;animation:critter-float 3.5s ease-in-out infinite;cursor:default}
-@keyframes critter-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-7px) rotate(3deg)}}
-.critter-face{position:absolute;bottom:2px;left:4px;width:36px;height:34px;background:#EBDAFF;border-radius:50%;box-shadow:0 6px 18px rgba(138,90,204,0.35),0 2px 6px rgba(138,90,204,0.2)}
-.critter-ear-l,.critter-ear-r{position:absolute;width:15px;height:15px;top:2px;background:#DDB8EE;clip-path:polygon(50% 0%,0% 100%,100% 100%)}
-.critter-ear-l{left:4px;transform:rotate(-12deg)}
-.critter-ear-r{right:4px;transform:rotate(12deg)}
-.critter-ear-l::after,.critter-ear-r::after{content:'';position:absolute;width:8px;height:8px;top:5px;left:3px;background:#F9C8D8;clip-path:polygon(50% 10%,5% 100%,95% 100%)}
-.critter-eye-l,.critter-eye-r{position:absolute;width:6px;height:7px;background:#2E2440;border-radius:50%;top:11px;animation:critter-blink 5s ease-in-out infinite}
-.critter-eye-l{left:7px}.critter-eye-r{right:7px;animation-delay:0.06s}
+/* Critter - Labubu style */
+.critter{position:relative;width:56px;height:74px;flex-shrink:0;animation:critter-float 3.5s ease-in-out infinite;cursor:default}
+@keyframes critter-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.critter-face{position:absolute;bottom:0;left:4px;width:48px;height:46px;background:#EBDAFF;border-radius:46% 46% 50% 50%;box-shadow:0 6px 18px rgba(138,90,204,0.35),0 2px 6px rgba(138,90,204,0.2)}
+/* Tall spiky Labubu ears */
+.critter-ear-l,.critter-ear-r{position:absolute;width:16px;height:40px;top:0;background:#DDB8EE;clip-path:polygon(50% 0%,5% 100%,95% 100%)}
+.critter-ear-l{left:4px;transform:rotate(-7deg)}
+.critter-ear-r{right:4px;transform:rotate(7deg)}
+.critter-ear-l::after,.critter-ear-r::after{content:'';position:absolute;width:8px;height:26px;top:11px;left:50%;transform:translateX(-50%);background:#F9C8D8;clip-path:polygon(50% 0%,5% 100%,95% 100%)}
+/* Big round eyes */
+.critter-eye-l,.critter-eye-r{position:absolute;width:13px;height:14px;background:#2E2440;border-radius:50%;top:9px;animation:critter-blink 5s ease-in-out infinite}
+.critter-eye-l{left:4px}.critter-eye-r{right:4px;animation-delay:0.06s}
+.critter-eye-l::after,.critter-eye-r::after{content:'';position:absolute;width:4px;height:4px;background:white;border-radius:50%;top:1px;left:2px}
 @keyframes critter-blink{0%,85%,100%{transform:scaleY(1)}90%,97%{transform:scaleY(0.08)}}
-.critter-nose{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:6px;height:4px;background:#F9B4C6;border-radius:50% 50% 40% 40%}
-.critter-blush{position:absolute;bottom:9px;width:9px;height:5px;background:rgba(249,180,198,0.55);border-radius:50%}
-.critter-blush-l{left:2px}.critter-blush-r{right:2px}
+.critter-nose{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:6px;height:4px;background:#C89AC8;border-radius:50%}
+/* Wide toothy grin — 3 rectangular teeth via clip-path */
+.critter-mouth{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:32px;height:14px;background:#2E2440;border-radius:4px 4px 16px 16px;overflow:hidden;z-index:2}
+.critter-tongue{position:absolute;top:32px;left:50%;width:13px;height:18px;background:#F9748E;border-radius:0 0 8px 8px;transform:translateX(-50%) scaleY(0);transform-origin:top center;z-index:1;animation:tongue-pop 6s ease-in-out 1.5s infinite}
+.critter-tongue::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:5px;height:3px;border-radius:0 0 50% 50%;border-bottom:1.5px solid rgba(180,50,80,0.35)}
+@keyframes tongue-pop{0%,62%,100%{transform:translateX(-50%) scaleY(0)}70%{transform:translateX(-50%) scaleY(1.12)}76%,88%{transform:translateX(-50%) scaleY(1)}96%{transform:translateX(-50%) scaleY(0)}}
+.critter-mouth::before{content:'';position:absolute;inset:0;background:white;clip-path:polygon(0% 0%,100% 0%,100% 28%,90% 92%,80% 28%,73% 28%,63% 72%,53% 28%,47% 28%,37% 72%,27% 28%,20% 28%,10% 92%,0% 28%)}
+/* Rosy blush */
+.critter-blush{position:absolute;bottom:17px;width:12px;height:7px;background:rgba(249,180,198,0.72);border-radius:50%}
+.critter-blush-l{left:0}.critter-blush-r{right:0}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-thumb{background:var(--sc);border-radius:10px}
 </style>
@@ -169,6 +179,8 @@ h1 em{font-style:normal;color:var(--ch-deep)}
         <div class="critter-eye-l"></div>
         <div class="critter-eye-r"></div>
         <div class="critter-nose"></div>
+        <div class="critter-tongue"></div>
+        <div class="critter-mouth"></div>
         <div class="critter-blush critter-blush-l"></div>
         <div class="critter-blush critter-blush-r"></div>
       </div>
