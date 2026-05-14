@@ -247,7 +247,7 @@
       max-width: 1200px;
       min-height: 80px;
       resize: both;
-      overflow: hidden;
+      overflow: auto;
       display: flex;
       flex-direction: column;
       animation: pop-in 0.2s ease-out;
@@ -350,9 +350,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      flex: 1;
-      overflow: auto;
-      min-height: 0;
     }
     .card.collapsed .card-body { display: none; }
 
@@ -852,6 +849,7 @@ function serializeCards(container) {
       title:     card.querySelector('.card-title').value,
       desc:      card.querySelector('.card-desc')?.value || '',
       width:     card.style.width,
+      height:    card.style.height,
       collapsed: card.classList.contains('collapsed'),
       palette:   card.dataset.palette != null ? parseInt(card.dataset.palette) : null,
       children:  childContainer ? serializeCards(childContainer) : [],
@@ -864,14 +862,15 @@ function deserializeCards(container, cards) {
     const card = createCard(data.type, data.title);
     const desc = card.querySelector('.card-desc');
     if (desc && data.desc) desc.value = data.desc;
-    if (desc) autoGrow(desc);
     updatePreview(card);
-    if (data.width)           card.style.width = data.width;
+    if (data.width)           card.style.width  = data.width;
+    if (data.height)          card.style.height = data.height;
     if (data.collapsed)       card.classList.add('collapsed');
     if (data.palette != null) applyPalette(card, parseInt(data.palette));
     const childContainer = card.querySelector('.children');
     if (childContainer && data.children?.length) deserializeCards(childContainer, data.children);
     container.appendChild(card);
+    if (desc) autoGrow(desc);
   });
 }
 
