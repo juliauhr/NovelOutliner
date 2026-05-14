@@ -65,8 +65,7 @@ h1 em{font-style:normal;color:var(--ch-deep)}
 .card{border-radius:16px;box-shadow:0 3px 14px var(--shadow),0 1px 3px rgba(0,0,0,0.04);transition:box-shadow 0.2s;position:relative;width:420px;min-width:180px;max-width:1200px;min-height:80px;resize:both;overflow:hidden;display:flex;flex-direction:column}
 .sortable-ghost{opacity:0.25 !important;box-shadow:none !important}
 .sortable-chosen{box-shadow:0 8px 28px rgba(60,40,100,0.20) !important}
-.card.collapsed>.card-head{border-radius:14px}
-.card.collapsed{resize:none;width:220px !important}
+.card.collapsed{resize:none;width:190px !important}
 
 /* Washi tape */
 
@@ -100,6 +99,10 @@ h1 em{font-style:normal;color:var(--ch-deep)}
 .children{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;min-height:4px}
 .card-foot{padding:4px 14px 10px;flex-shrink:0;border-top:1px solid rgba(0,0,0,0.05)}
 .card.collapsed .card-foot{display:none}
+.card.collapsed .hbtn:not(.hbtn-collapse){display:none}
+.card-preview{display:none;padding:5px 14px 9px;font-size:0.8rem;color:var(--mute);font-family:'Nunito',sans-serif;line-height:1.55;overflow:hidden;white-space:pre-wrap;word-break:break-word;border-radius:0 0 14px 14px;flex-shrink:0}
+.card.collapsed .card-preview{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.card-preview:empty::before{content:'No notes yet\2026';opacity:0.45;font-style:italic}
 .btn-add-child{align-self:flex-start;background:none;border:2px dashed;border-radius:10px;padding:4px 12px;font-family:'Nunito',sans-serif;font-size:0.76rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.15s}
 .card-chapter .btn-add-child{border-color:var(--sc);color:var(--sc-deep)}
 .card-chapter .btn-add-child:hover{background:var(--sc);color:white;border-style:solid}
@@ -318,6 +321,7 @@ function deserializeCards(container,cards){
     var de=card.querySelector('.card-desc');
     if(de&&data.desc)de.value=data.desc;
     if(de)autoGrow(de);
+    updatePreview(card);
     if(data.width) card.style.width=data.width;
     if(data.collapsed)card.classList.add('collapsed');
     if(data.palette!=null)applyPalette(card,parseInt(data.palette));
@@ -417,6 +421,13 @@ async function deleteProject(id){
 /* ── Auto-grow textarea ────────────────────────────────────────────────── */
 function autoGrow(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
 
+/* ── Preview (collapsed state) ─────────────────────────────────────────── */
+function updatePreview(card){
+  var preview=card.querySelector('.card-preview');
+  var desc=card.querySelector('.card-desc');
+  if(preview&&desc)preview.textContent=desc.value||'';
+}
+
 /* ── Card factory ──────────────────────────────────────────────────────── */
 function createCard(type,defaultTitle){
   var cfg=CFG[type];
@@ -448,6 +459,7 @@ function createCard(type,defaultTitle){
   var collapseBtn=document.createElement('button');collapseBtn.className='hbtn hbtn-collapse';collapseBtn.title='Collapse / expand';collapseBtn.textContent='\u25BC';
   collapseBtn.addEventListener('click',function(){
     card.classList.toggle('collapsed');
+    updatePreview(card);
     if(card.classList.contains('collapsed')){
       card.dataset.savedHeight=card.style.height;
       card.dataset.savedWidth=card.style.width;
@@ -469,7 +481,7 @@ function createCard(type,defaultTitle){
 
   var body=document.createElement('div');body.className='card-body';
   var desc=document.createElement('textarea');desc.className='card-desc';desc.placeholder=cfg.ph;desc.rows=1;
-  desc.addEventListener('input',function(){autoGrow(desc);scheduleSave();});body.appendChild(desc);
+  desc.addEventListener('input',function(){autoGrow(desc);updatePreview(card);scheduleSave();});body.appendChild(desc);
 
   var foot=null;
   if(cfg.child){
@@ -485,7 +497,8 @@ function createCard(type,defaultTitle){
     addChildBtn.addEventListener('click',addChild);foot.appendChild(addChildBtn);
   }
 
-  card.appendChild(head);card.appendChild(body);
+  var preview=document.createElement('div');preview.className='card-preview';
+  card.appendChild(head);card.appendChild(preview);card.appendChild(body);
   if(foot)card.appendChild(foot);
 
   return card;
