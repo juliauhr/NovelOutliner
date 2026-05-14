@@ -92,6 +92,7 @@ h1 em{font-style:normal;color:var(--ch-deep)}
 .hbtn-collapse{font-size:10px;transition:background 0.12s,transform 0.2s}
 .card.collapsed .hbtn-collapse{transform:rotate(-90deg)}
 .hbtn-palette{font-size:11px}
+.hbtn-palette span{filter:drop-shadow(0 0 1.5px white) drop-shadow(0 0 1.5px white)}
 .card-body{padding:10px 14px 8px;display:flex;flex-direction:column;gap:10px;flex:1;overflow:auto;min-height:0}
 .card.collapsed .card-body{display:none}
 .card-desc{font-size:0.82rem;color:var(--mute);background:transparent;border:none;outline:none;resize:none;width:100%;min-height:36px;font-family:'Nunito',sans-serif;line-height:1.65;overflow:hidden}
@@ -376,7 +377,7 @@ function renderProjectList(){
     });
     nameEl.addEventListener('keydown',function(e){if(e.key==='Enter')nameEl.blur();e.stopPropagation();});
     var del=document.createElement('button');
-    del.className='proj-delete';del.title='Delete novel';del.textContent='\u2715';
+    del.className='proj-delete';del.title='Delete novel';del.textContent='\uD83D\uDDD1';
     del.addEventListener('click',function(e){e.stopPropagation();deleteProject(proj.id);});
     item.appendChild(icon);item.appendChild(nameEl);item.appendChild(del);
     list.appendChild(item);
@@ -452,7 +453,7 @@ function createCard(type,defaultTitle){
   }
 
   var paletteBtn=document.createElement('button');paletteBtn.className='hbtn hbtn-palette';
-  paletteBtn.title='Change color';paletteBtn.textContent='\uD83C\uDFA8';
+  paletteBtn.title='Change color';paletteBtn.innerHTML='<span>\uD83C\uDFA8</span>';
   paletteBtn.addEventListener('click',function(e){e.stopPropagation();openPalettePicker(card,paletteBtn);});
   btns.appendChild(paletteBtn);
 
@@ -471,7 +472,7 @@ function createCard(type,defaultTitle){
     }
     scheduleSave();
   });
-  var deleteBtn=document.createElement('button');deleteBtn.className='hbtn';deleteBtn.title='Delete';deleteBtn.textContent='\u2715';
+  var deleteBtn=document.createElement('button');deleteBtn.className='hbtn';deleteBtn.title='Delete';deleteBtn.textContent='\uD83D\uDDD1';
   deleteBtn.addEventListener('click',function(){
     card.style.transition='opacity 0.18s,transform 0.18s';card.style.opacity='0';card.style.transform='scale(0.95)';
     setTimeout(function(){card.remove();updateEmpty();scheduleSave();},180);
