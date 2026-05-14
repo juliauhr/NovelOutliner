@@ -246,7 +246,6 @@
       min-width: 180px;
       max-width: 1200px;
       min-height: 80px;
-      resize: both;
       overflow: auto;
       display: flex;
       flex-direction: column;
@@ -848,8 +847,6 @@ function serializeCards(container) {
       type,
       title:     card.querySelector('.card-title').value,
       desc:      card.querySelector('.card-desc')?.value || '',
-      width:     card.style.width,
-      height:    card.style.height,
       collapsed: card.classList.contains('collapsed'),
       palette:   card.dataset.palette != null ? parseInt(card.dataset.palette) : null,
       children:  childContainer ? serializeCards(childContainer) : [],
@@ -863,14 +860,12 @@ function deserializeCards(container, cards) {
     const desc = card.querySelector('.card-desc');
     if (desc && data.desc) desc.value = data.desc;
     updatePreview(card);
-    if (data.width)           card.style.width  = data.width;
-    if (data.height)          card.style.height = data.height;
     if (data.collapsed)       card.classList.add('collapsed');
     if (data.palette != null) applyPalette(card, parseInt(data.palette));
-    const childContainer = card.querySelector('.children');
-    if (childContainer && data.children?.length) deserializeCards(childContainer, data.children);
     container.appendChild(card);
     if (desc) autoGrow(desc);
+    const childContainer = card.querySelector('.children');
+    if (childContainer && data.children?.length) deserializeCards(childContainer, data.children);
   });
 }
 
@@ -1098,15 +1093,6 @@ function createCard(type, defaultTitle) {
   collapseBtn.addEventListener('click', () => {
     card.classList.toggle('collapsed');
     updatePreview(card);
-    if (card.classList.contains('collapsed')) {
-      card.dataset.savedHeight = card.style.height;
-      card.dataset.savedWidth  = card.style.width;
-      card.style.height = '';
-      card.style.width  = '';
-    } else {
-      card.style.height = card.dataset.savedHeight || '';
-      card.style.width  = card.dataset.savedWidth  || '';
-    }
     scheduleSave();
   });
   btns.appendChild(collapseBtn);
